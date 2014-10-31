@@ -1,5 +1,5 @@
-# Huygens ING Backbone Pagination
+# Huygens ING Backbone Login
 
-Pagination view.
+View, model and logic for logging in.
 
 ## Changelog
