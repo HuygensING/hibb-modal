@@ -8,13 +8,11 @@ class User extends Backbone.Model
 		@_handleTokenInUrl()
 
 		# TODO Should hi-auth-token be project specific?
-		localStorage.getItem(TOKEN_VAR)?
+		@getToken()?
 
 	_handleTokenInUrl: ->
 		path = window.location.search.substr 1
 		parameters = path.split '&'
-
-		console.log 
 
 		for param in parameters
 			[key, value] = param.split('=')
@@ -25,6 +23,9 @@ class User extends Backbone.Model
 
 	_setAuthToken: (token) ->
 		localStorage.setItem TOKEN_VAR, token
+
+	getToken: ->
+		localStorage.getItem TOKEN_VAR
 
 
 module.exports = User
