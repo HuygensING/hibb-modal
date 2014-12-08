@@ -1,5 +1,5 @@
 {
-	"name": "hi-backbone-login",
+	"name": "hibb-modal",
 	"version": "1.0.0",
 	"description": "",
 	"main": "dist/index.js",
@@ -11,8 +11,7 @@
 	"dependencies": {
 		"backbone": "^1.1.2",
 		"jquery": "^2.1.1",
-		"underscore": "^1.7.0",
-		"funcky.util": "git+https://github.com/Gijsjan/funcky.util.git"
+		"underscore": "^1.7.0"
 	},
 	"devDependencies": {
 		"browserify": "^3.26.0",
