@@ -1,5 +1,7 @@
 @import 'nib'
 
+bodyPadding = 30px
+
 .hibb-modal
 	.overlay
 		position fixed
@@ -31,6 +33,7 @@
 
 			p.message
 				display none
+				margin 0
 
 				&.success
 					color green
@@ -45,11 +48,12 @@
 			min-height 30px
 			margin 20px 0 20px 0
 			overflow auto
+			padding bodyPadding
 
 		footer
 			position absolute
-			bottom 20px
-			right 20px
+			bottom bodyPadding
+			right bodyPadding
 			text-align right
 
 			button

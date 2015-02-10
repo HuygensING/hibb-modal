@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "dist/index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"docs": "crojsdoc ./src && http-server ./doc -o"
 	},
 	"author": "gijsjan.brouwer@huygens.knaw.nl (https://github.com/Gijsjan)",
 	"license": "ISC",

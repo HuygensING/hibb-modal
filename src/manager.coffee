@@ -1,11 +1,22 @@
 $ = require 'jquery'
 
+###
+# @class
+###
 class ModalManager
 
+	###
+	# @method
+	###
 	constructor: ->
 		@_modals = []
 
+	###
 	# Add a modal (Backbone.View) to modalManager.
+	#
+	# @method
+	# @param {Modal} modal
+	###
 	add: (modal) ->
 		# Lighten overlays of underlying modals
 		m.$('.overlay').css 'opacity', '0.2' for m in @_modals
@@ -20,10 +31,14 @@ class ModalManager
 		# Prepend modal to body
 		$('body').prepend modal.$el
 
+	###
 	# Remove a modal (Backbone.View) to modalManager.
 	# 
 	# For now, the modal to be removed is always the last modal. In theory we could call Array.pop(),
 	# but in the future we might implement a modal drag so underlying modals can be removed first.
+	# @method
+	# @param {Modal} modal
+	###
 	remove: (modal) ->
 		index = @_modals.indexOf modal
 		@_modals.splice index, 1

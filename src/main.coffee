@@ -6,45 +6,48 @@ tpl = require './main.jade'
 
 modalManager = require './manager'
 
-# OPTIONS
-# customClassName
-# html
-# width
-# height
-# title
-# titleClass
-# cancelAndSubmit
-# cancelValue
-# submitValue
-# focusOnFirstInput
-
-# ## Modal
+###
+# @class
+# @uses ModalManager
+###
 class Modal extends Backbone.View
 
+	###
+	# @property
+	# @type {String}
+	###
 	className: "hibb-modal"
 
+	###
+	# @method
+	# @return {Object} Default options.
+	###
 	defaultOptions: ->
 		title: ''
-
-		# Deprecated by customClassName?
 		titleClass: ''
-
-		# Show cancel and submit button.
 		cancelAndSubmit: true
-
 		cancelValue: 'Cancel'
 		submitValue: 'Submit'
-
-		# Add a className to top level to support styling and DOM manipulation. 
 		customClassName: ''
-
-		# Set the focus to the first <input> when the modal is shown.
 		focusOnFirstInput: true
-
-		# If the overlay is clicked, cancel is triggered. Defaults to true.
 		clickOverlay: true
 
-	# ### Initialize
+	###
+	# @method
+	# @construct
+	# @param {Object} [this.options]
+	# @param {String} [this.options.title=''] Title of the modal.
+	# @param {String} [this.options.titleClass=''] Deprecated by customClassName?
+	# @param {String} [this.options.width] Width of the modal in px, %, vw or auto. 
+	# @param {String} [this.options.height] Height of the modal in px, %, vw or auto.
+	# @param {String} [this.options.html]
+	# @param {Boolean} [this.options.cancelAndSubmit=true] Show cancel and submit button.
+	# @param {String} [this.options.cancelValue='Cancel'] Value for the cancel button.
+	# @param {String} [this.options.submitValue='Submit'] Value for the submit button.
+	# @param {String} [this.options.customClassName=''] Add a className to top level to support styling and DOM manipulation. 
+	# @param {Boolean} [this.options.focusOnFirstInput=true] Set the focus to the first <input> when the modal is shown.
+	# @param {Boolean} [this.options.clickOverlay=true] If the overlay is clicked, cancel is triggered. Defaults to true.
+	###
 	initialize: (@options={}) ->
 		super
 
@@ -57,7 +60,10 @@ class Modal extends Backbone.View
 
 		@render()
 
-	# ### Render
+
+	###
+	# @method
+	###
 	render: ->
 		rtpl = tpl @options
 		@$el.html rtpl
@@ -113,40 +119,58 @@ class Modal extends Backbone.View
 
 		@
 
-	# ### Events
-	events:
-		"click button.submit": 'submit'
-		"click button.cancel": "cancel"
-		"click .overlay": -> @cancel() if @options.clickOverlay
+	###
+	# @method
+	# @return {Object}
+	###
+	events: ->
+		"click button.submit": '_submit'
+		"click button.cancel": "_cancel"
+		"click .overlay": -> @_cancel() if @options.clickOverlay
 		"keydown input": (ev) ->
 			if ev.keyCode is 13
 				ev.preventDefault()
-				@submit ev
+				@_submit ev
 
-	submit: (ev) ->
+	###
+	# @method
+	# @private
+	###
+	_submit: (ev) ->
 		target = $(ev.currentTarget)
 		unless target.hasClass 'loader'
 			target.addClass 'loader'
 			@$('button.cancel').hide()
 			@trigger 'submit'
 
-	cancel: (ev) ->
+	###
+	# @method
+	# @private
+	###
+	_cancel: (ev) ->
 		ev.preventDefault() if ev?
 
 		@trigger 'cancel'
 		@close()
 
-	# ### Methods
-
-
+	###
+	# @method
+	###
 	close: ->
 		# Trigger close before removing the modal, otherwise there won't be a trigger!
 		@trigger 'close'
 		modalManager.remove @
 
+	###
 	# Alias for close.
+	#
+	# @method
+	###
 	destroy: -> @close()
 
+	###
+	# @method
+	###
 	fadeOut: (delay = 1000) ->
 		# Speed is used for $.fadeOut and to calculate the time at which to @remove the modal.
 		# Set speed to 0 if delay is 0.
@@ -158,11 +182,20 @@ class Modal extends Backbone.View
 		# Use setTimeout to @remove before $.fadeOut is completely finished, otherwise it interferes with the overlay
 		setTimeout (=> @close()), delay + speed - 100
 
+	###
+	# @method
+	###
 	message: (type, message) ->
 		return console.error("Unknown message type!")  if ["success", "warning", "error"].indexOf(type) is -1
 		@$("p.message").show()
 		@$("p.message").html(message).addClass type
 
+	###
+	# @method
+	# @param {String} type One of success, warning, error
+	# @param {String} message
+	# @param {Delay} [delay] Time to wait before fading
+	###
 	messageAndFade: (type, message, delay) ->
 		@$(".modalbody .body").hide()
 		@$("footer").hide()
