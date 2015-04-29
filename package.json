@@ -4,7 +4,10 @@
 	"description": "",
 	"main": "dist/index.js",
 	"scripts": {
-		"docs": "crojsdoc ./src && http-server ./doc -o"
+		"docs": "crojsdoc ./src && http-server ./doc -o",
+		"patch": "npm version patch && npm run commit:bump && git push && git push --tags && npm publish",
+		"minor": "npm version minor && npm run commit:bump && git push && git push --tags && npm publish",
+		"major": "npm version major && npm run commit:bump && git push && git push --tags && npm publish"
 	},
 	"author": "gijsjan.brouwer@huygens.knaw.nl (https://github.com/Gijsjan)",
 	"license": "ISC",
